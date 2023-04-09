@@ -2,7 +2,10 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app_v1/styles.dart';
+
+import 'ProfilePage.dart';
 
 class ChatWidgets {
   static Widget card({title, time, subtitle, onTap}) {
@@ -40,13 +43,20 @@ class ChatWidgets {
   }
 
   static Widget circleProfile({onTap, name, number}) {
+    final users = FirebaseAuth.instance.currentUser;
     if (number < 7) {
       number = number + 1;
     } else {
       number = Random().nextInt(7 - 1 + 1) + 1;
     }
     String num = number.toString();
-    print(num);
+
+    Color myColor = Colors.grey;
+    if (name == users!.email?.split("@")[0]) {
+      myColor = Colors.green;
+    } else {
+      myColor = Colors.grey;
+    }
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -75,7 +85,7 @@ class ChatWidgets {
                           color: Colors.white,
                           width: 3,
                         ),
-                        color: Colors.green,
+                        color: myColor,
                       ),
                     ),
                   ),
@@ -101,6 +111,7 @@ class ChatWidgets {
   }
 
   static drawer(context) {
+    String name = context.toString();
     return Drawer(
       backgroundColor: Colors.indigo.shade400,
       child: SafeArea(
@@ -115,19 +126,16 @@ class ChatWidgets {
                   backgroundImage: AssetImage('assets/avatar_1.jpg'),
                 ),
                 const SizedBox(height: 10),
+                Text(
+                  '${name} ',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const Divider(
                   color: Colors.white,
                 ),
-                ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text('Profil'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: const Text('Çıkış Yap'),
-                  onTap: () async => await FirebaseAuth.instance.signOut(),
-                )
               ],
             ),
           ),

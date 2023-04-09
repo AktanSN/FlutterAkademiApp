@@ -4,10 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_app_v1/HomePage.dart';
 import 'package:my_app_v1/LoginPage.dart';
+import 'package:my_app_v1/NotePage.dart';
 import 'package:my_app_v1/styles.dart';
+import 'package:my_app_v1/videoPlayer.dart';
+import 'package:my_app_v1/view/screens/splash_screen.dart';
 import 'package:my_app_v1/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'controller/index_controller.dart';
+import 'newHome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "My App",
+      title: "Socialpath",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -37,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
-              body: NewHomePage(context),
+              body: NewHomePage(),
             );
           } else {
             return Scaffold(
@@ -46,10 +53,35 @@ class _MyAppState extends State<MyApp> {
           }
         },
       ),
+
+      /* StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              body: NewHomePage(),
+            );
+          } else {
+            return Scaffold(
+              body: LoginPage(),
+            );
+          }
+        },
+      ), */
     );
     //NewHomePage(context);
   }
 
+  ChangeNotifierProvider<IndexController> ChangeNotifier() {
+    return ChangeNotifierProvider<IndexController>(
+      create: (context) => IndexController(),
+      child: const MaterialApp(
+        home: SplashScreen(),
+        debugShowCheckedModeBanner: false,
+      ),
+    );
+  }
+  /*
   MaterialApp NewHomePage(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -169,6 +201,7 @@ class _MyAppState extends State<MyApp> {
       ), /**/
     );
   }
+  */
 }
 
 class SurveyWidget extends StatelessWidget {

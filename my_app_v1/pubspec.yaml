@@ -42,6 +42,10 @@ dependencies:
   google_fonts: ^4.0.3
   google_sign_in: '^5.2.0'
   cloud_firestore: ^4.5.0
+  video_player: ^2.6.1
+  chewie: ^1.4.0
+  percent_indicator: ^4.2.2
+  provider: ^6.0.4
   
 dev_dependencies:
   flutter_test:
