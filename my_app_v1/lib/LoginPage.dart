@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_app_v1/data_service.dart';
+import 'package:my_app_v1/styles.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -53,114 +57,207 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.indigo.shade400,
       appBar: AppBar(
-        title: Center(
-          child: Text('Login Page'),
-        ),
+        backgroundColor: Colors.indigo.shade400,
+        title: Text(''),
+        elevation: 0,
+        centerTitle: true,
       ),
-      body: Center(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          hintText: 'email',
-                        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: EdgeInsets.only(top: 10),
+              margin: EdgeInsets.all(0),
+              child: Container(
+                color: Colors.indigo.shade400,
+                padding: const EdgeInsets.all(8),
+                height: 200,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 10),
+                      child: Text(
+                        'Hoşgeldiniz',
+                        style: Styles.h1(),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: passwordController,
-                        decoration: const InputDecoration(
-                          hintText: 'password',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: 40,
-                  width: 100,
-                  child: PhysicalModel(
-                    color: Colors.transparent,
-                    elevation: 15,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                        );
-                      },
-                      child: Text('Giriş Yap'),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: 40,
-                  width: 120,
-                  child: PhysicalModel(
-                    color: Colors.transparent,
-                    elevation: 15,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        FirebaseAuth.instance.createUserWithEmailAndPassword(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Kayıt Ol'),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: 40,
-                  width: 120,
-                  child: PhysicalModel(
-                    color: Colors.transparent,
-                    elevation: 15,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await signInWithGoogle();
-                      },
-                      child: Text('Google ile giriş yap'),
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
           ),
-        ),
+          Expanded(
+            flex: 4,
+            child: Container(
+              decoration: Styles.friendsBox(),
+              child: Card(
+                elevation: 8,
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: emailController,
+                            decoration: const InputDecoration(
+                              hintText: 'email',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: passwordController,
+                            decoration: const InputDecoration(
+                              hintText: 'password',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      height: 40,
+                      width: 150,
+                      child: PhysicalModel(
+                        color: Colors.transparent,
+                        elevation: 15,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.indigo.shade400,
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            );
+
+                            await addFireStore();
+                          },
+                          child: Text('Giriş Yap'),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      height: 40,
+                      width: 150,
+                      child: PhysicalModel(
+                        color: Colors.transparent,
+                        elevation: 15,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.indigo.shade400,
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            );
+
+                            await addFireStore();
+
+                            Fluttertoast.showToast(
+                              msg: "Kayıt Başarılı",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.blue,
+                              textColor: Colors.white,
+                              fontSize: 20.0,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Kayıt Ol'),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      height: 40,
+                      width: 200,
+                      child: PhysicalModel(
+                        color: Colors.transparent,
+                        elevation: 15,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.indigo.shade400,
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            await signInWithGoogle();
+
+                            await addFireStore();
+                          },
+                          child: Text('Google ile giriş yap'),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> addFireStore() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    await FirebaseFirestore.instance.collection("users").doc(uid).set({
+      'username':
+          FirebaseAuth.instance.currentUser!.email!.split("@")[0].toString(),
+    });
   }
 }
 
