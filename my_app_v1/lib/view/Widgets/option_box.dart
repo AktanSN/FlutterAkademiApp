@@ -53,7 +53,7 @@ class OptionBox extends StatelessWidget {
           leading: Text(
             optionIndex,
             style: GoogleFonts.mulish(
-              fontSize: 18,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               color: const Color.fromRGBO(212, 212, 212, 1),
             ),
@@ -63,7 +63,7 @@ class OptionBox extends StatelessWidget {
             textAlign: TextAlign.left,
             style: GoogleFonts.mulish(
               fontWeight: FontWeight.w800,
-              fontSize: 18,
+              fontSize: 15,
               letterSpacing: -0.3,
               color: const Color.fromRGBO(255, 248, 255, 1),
             ),

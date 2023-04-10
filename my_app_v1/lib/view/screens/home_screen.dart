@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app_v1/chartPage.dart';
+import 'package:my_app_v1/newHome.dart';
 import 'package:provider/provider.dart';
 import '../../controller/index_controller.dart';
 import '../../utilities/list_of_answers.dart';
@@ -163,17 +165,11 @@ class FirstPage extends StatelessWidget {
                                           if (indexForQuestionNumber < 10) {
                                             provider.updateIndexForQuestion();
                                           } else {
-                                            Navigator.push(
+                                            Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ResultPage(
-                                                    selected1: count1,
-                                                    selected2: count2,
-                                                    selected3: count3,
-                                                    selected4: count4,
-                                                  ),
-                                                ));
+                                                    builder: (context) =>
+                                                        ChartPage()));
                                           }
                                           provider.selectedOptionIndex(0);
                                         },

@@ -25,7 +25,7 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
       backgroundColor: Colors.indigo.shade400,
       appBar: AppBar(
         backgroundColor: Colors.indigo.shade400,
-        title: const Text('Uygulama Adı'),
+        title: const Text('socialpath'),
         elevation: 10,
         centerTitle: true,
         actions: [

@@ -1,18 +1,66 @@
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app_v1/newHome.dart';
+import 'package:my_app_v1/quiz_app.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   late String password;
+
   final users = FirebaseAuth.instance.currentUser;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> changePassword(String newPassword) async {
     await _auth.currentUser!.updatePassword(newPassword);
+  }
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  @override
+  void initState() {
+    super.initState();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    _showNotification().timeout(Duration(seconds: 2));
+  }
+
+  Future<void> _showNotification() async {
+    var androidDetails = AndroidNotificationDetails(
+        'channel_id', 'channel_name',
+        importance: Importance.high,
+        priority: Priority.high,
+        ticker: 'ticker',
+        color: Colors.indigo.shade400,
+        playSound: true,
+        enableLights: true,
+        enableVibration: true,
+        icon: '@mipmap/ic_launcher',
+        visibility: NotificationVisibility.public,
+        vibrationPattern: Int64List.fromList([0, 1000, 500, 1000]),
+        styleInformation: DefaultStyleInformation(true, true));
+
+    var platformDetails = NotificationDetails(android: androidDetails);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Bilgilendirme.',
+      'Eşleşebilmen için kişilik envanterini tamamlamalısın.',
+      platformDetails,
+    );
   }
 
   final isChange = "Passowrd Changed";
@@ -22,7 +70,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo.shade400,
-        title: const Text('Uygulama Adı'),
+        title: const Text('socialpath'),
         elevation: 0,
         centerTitle: true,
         actions: [
@@ -144,6 +192,22 @@ class ProfilePage extends StatelessWidget {
                         const Divider(
                           color: Colors.white,
                         ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              onPrimary: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => QuizApp()));
+                            },
+                            child: Text("Envantere Git")),
                       ],
                     ),
                   ),

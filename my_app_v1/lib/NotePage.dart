@@ -28,7 +28,7 @@ class _NotePageState extends State<NotePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo.shade400,
-        title: const Text('Uygulama Adı'),
+        title: const Text('socialpath'),
         elevation: 10,
         centerTitle: true,
         actions: [

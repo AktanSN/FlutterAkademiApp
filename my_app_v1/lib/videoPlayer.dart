@@ -46,7 +46,7 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
       backgroundColor: Colors.indigo.shade400,
       appBar: AppBar(
         backgroundColor: Colors.indigo.shade400,
-        title: const Text('Uygulama Adı'),
+        title: const Text('socialpath'),
         elevation: 10,
         centerTitle: true,
         actions: [

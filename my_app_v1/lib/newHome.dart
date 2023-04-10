@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app_v1/NotePage.dart';
 import 'package:my_app_v1/ProfilePage.dart';
@@ -13,12 +16,20 @@ import 'package:video_player/video_player.dart';
 import 'Users.dart';
 import 'data_service.dart';
 
-class NewHomePage extends StatelessWidget {
+class NewHomePage extends StatefulWidget {
   NewHomePage({super.key});
 
+  @override
+  State<NewHomePage> createState() => _NewHomePageState();
+}
+
+class _NewHomePageState extends State<NewHomePage> {
   late String password;
+
   final users = FirebaseAuth.instance.currentUser;
+
   FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> changePassword(String newPassword) async {
     await _auth.currentUser!.updatePassword(newPassword);
   }
@@ -29,7 +40,7 @@ class NewHomePage extends StatelessWidget {
       backgroundColor: Colors.indigo.shade400,
       appBar: AppBar(
         backgroundColor: Colors.indigo.shade400,
-        title: const Text('Uygulama Adı'),
+        title: const Text('socialpath'),
         elevation: 0,
         centerTitle: true,
         actions: [
